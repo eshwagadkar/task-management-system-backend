@@ -49,32 +49,32 @@ app.use(morgan('tiny'));
 app.use(`${api}/tasks`, taskRoute);
 
 // Registering the imported routes as a middleware
-app.use(`${api}/users`, categoryRoute);
+// app.use(`${api}/users`, usersRoute);
 
 // Registering the imported routes as a middleware
 // app.use(`${api}/users`, usersRoute);
 
 // Middleware for error handling
-// app.use((err, req, res, next) => {
+app.use((err, req, res, next) => {
 
     // JWT Authentication Error
-    // if(err.name === 'UnauthorizedError'){
-        // return res.status(500).json({ message: 'The user is not authorized', success: false });
-    // }
+    if(err.name === 'UnauthorizedError'){
+        return res.status(500).json({ message: 'The user is not authorized', success: false });
+    }
 
      // Validation Error
-    // if(err.name === 'ValidationError'){
-    //    return res.status(401).json({ message: err, success: false })
-    // }
+    if(err.name === 'ValidationError'){
+       return res.status(401).json({ message: err, success: false })
+    }
 
-    // if(res.headerSent){
-        // return next(err);
-    // }
+    if(res.headerSent){
+        return next(err);
+    }
 
     // Default to General: 500 Server Error
-    // res.status(err.code || 500).json({ message: err.message || 'An unknown error occurred!', success: err.success });
+    res.status(err.code || 500).json({ message: err.message || 'An unknown error occurred!', success: err.success });
 
-// })
+})
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
