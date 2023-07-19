@@ -1,19 +1,16 @@
 const express = require('express');
 
+const taskController = require('../controllers/tasks');
 const router = express.Router();
 
-const DUMMY_TASKS = [
-    {
-        id: 't1',
-        title: 'painting', 
-        description: 'Painitng the monalisa',
-        creator: 'u1'
-    }
-]
+// Fetch all the tasks
+router.get('/', taskController.fetchAllTasks)
 
-router.get('/', (req, res, next) => {
-    console.log('Get request in tasks');
-    res.json({ message: 'It works'});
-});
+// Fetch task using taskid
+router.get('/:tid', taskController.fetchATask);
+
+// Fetch task using user-id
+router.get('/user/:uid', taskController.fetchATaskUsingUID);
+
 
 module.exports = router;
