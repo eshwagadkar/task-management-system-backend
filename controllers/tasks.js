@@ -99,14 +99,21 @@ const updateTask = async (req, res, next) => {
 // Create a Task
 const deleteTask = async (req, res, next) => {
 
-    const { title, description, dueDate, creator  } = req.body;
+    const taskId = req.params.tid;
 
-    const createTask = { id: uuidv4(), title, description, dueDate, creator }
-
-    DUMMY_TASKS.unshift(createTask);
-
-    res.status(201).json({ task: createTask })
-
+    try{
+        const task = await Task.findByIdAndRemove(taskId);
+        // check to find whether the task id entered exists or fake generated one.
+        if(task){
+            res.status(200).json({ success: true, message: 'Successfully Deleted.' });  // If tid exists/ not fake, return that task.
+        } else {
+            const error = new HttpError('Couldnot find a task for the provided id', 404, false);
+            return next(error);
+        }
+     } catch (err) {  // If the taskId not a mongo format id or shortened.
+        const error = new HttpError('Something went wrong, couldnot delete a place', 500, false);
+        return next(error);
+     }
 }
 
 exports.fetchAllTasks = fetchAllTasks;
