@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const HttpError = require('./models/http-error'); 
 
 // Route Imports
 const taskRoute = require('./routes/tasks');
@@ -15,8 +16,8 @@ const app = express();
 
 require('dotenv').config(); 
 
-// const connectDB = require('./mongoConnect');
-// connectDB();
+const connectDB = require('./mongo-connect');
+connectDB();
 
 const api = process.env.API_URL;
 const PORT = process.env.PORT;
@@ -53,6 +54,12 @@ app.use(`${api}/tasks`, taskRoute);
 
 // Registering the imported routes as a middleware
 // app.use(`${api}/users`, usersRoute);
+
+// Middleeware that handles unsupported routes
+app.use((error, res, next) => {
+    const err = new HttpError('Could not find this route', 404, false );
+    throw err;
+})
 
 // Middleware for error handling
 app.use((err, req, res, next) => {
