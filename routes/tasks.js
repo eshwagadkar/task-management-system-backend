@@ -12,5 +12,14 @@ router.get('/:tid', taskController.fetchATask);
 // Fetch task using user-id
 router.get('/user/:uid', taskController.fetchATaskUsingUID);
 
+// Creating a task
+router.post('/', taskController.createTask);
+
+// Updating a task
+router.patch('/:tid', taskController.updateTask);
+
+// Delete a task
+router.delete('/:tid', taskController.deleteTask);
+
 
 module.exports = router;
