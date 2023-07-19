@@ -78,17 +78,22 @@ const createTask = async (req, res, next) => {
 // Create a Task
 const updateTask = async (req, res, next) => {
 
-    const { title, description, dueDate  } = req.body;
+    const { title, description, dueDate } = req.body;
     const taskId = req.params.tid;
 
-    const updatedTask = { ...DUMMY_TASKS.find(t => t.id === taskId) };
-    const placeIndex = DUMMY_TASKS.findIndex(t => t.id === taskId);
-    updatedTask.title = title;
-    updatedTask.description =  description;
-
-    DUMMY_TASKS[placeIndex] = updateTask;
-
-    res.status(200).json({ task: updateTask });
+    try{
+        const task = await Task.findByIdAndUpdate(taskId, { title, description, dueDate }, { new: true });
+        // check to find whether the task id entered exists or fake generated one.
+        if(task){
+            res.json({ task });  // If tid exists/ not fake, return that task.
+        } else {
+            const error = new HttpError('Couldnot find a task for the provided id', 404, false);
+            return next(error);
+        }
+     } catch (err) {  // If the taskId not a mongo format id or shortened.
+        const error = new HttpError('Something went wrong, couldnot update a place', 500, false);
+        return next(error);
+     }
 }
 
 // Create a Task
