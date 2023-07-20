@@ -52,7 +52,7 @@ const signUp = async (req, res, next) => {
     }
 
     // Creating a User
-    const user = new User({ name, email, password, image, tasks : [] });
+    const user = new User({ name, email, password, tasks : [] });
 
     // Save the user created in the mongoDB database
     try{

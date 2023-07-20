@@ -24,9 +24,9 @@ router.post('/signup', [
     check('password')
         .not()
         .isEmpty(),
-    check('image')
-        .not()
-        .isEmpty()
+    // check('image')
+    //     .not()
+    //     .isEmpty()
 ] , userControllers.signUp );
 
 // Login a user 
