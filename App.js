@@ -5,8 +5,7 @@ const HttpError = require('./models/http-error');
 
 // Route Imports
 const taskRoute = require('./routes/tasks');
-// const categoryRoute = require('./routes/categories');
-// const usersRoute = require('./routes/users');
+const usersRoute = require('./routes/users');
 
 // Middleware Imports
 // const authJwt = require('./middlewares/jwt');
@@ -50,7 +49,7 @@ app.use(morgan('tiny'));
 app.use(`${api}/tasks`, taskRoute);
 
 // Registering the imported routes as a middleware
-// app.use(`${api}/users`, usersRoute);
+app.use(`${api}/users`, usersRoute);
 
 // Registering the imported routes as a middleware
 // app.use(`${api}/users`, usersRoute);
