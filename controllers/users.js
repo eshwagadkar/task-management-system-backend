@@ -6,7 +6,15 @@ const User = require('../models/users');
 
 // Fetch All Users 
 const fetchAllUsers = async (req, res, next) => {
-    
+
+    try{
+        const users = await User.find().select('-password');
+        res.status(201).send(users);
+     } catch(err){
+        const error = new HttpError('No users found.', 500, false );
+        return next(error);
+     }
+     
 }
 
 // Fetch a User by id
