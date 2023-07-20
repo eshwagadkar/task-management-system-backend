@@ -34,7 +34,7 @@ const signUp = async (req, res, next) => {
         );
     }
 
-    const { name, email, password, image, tasks } = req.body;
+    const { name, email, password, image } = req.body;
 
     // Check if a user exists with 
     let existingUser;
@@ -52,7 +52,7 @@ const signUp = async (req, res, next) => {
     }
 
     // Creating a User
-    const user = new User({ name, email, password, image, tasks });
+    const user = new User({ name, email, password, image, tasks : [] });
 
     // Save the user created in the mongoDB database
     try{
