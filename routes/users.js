@@ -14,7 +14,7 @@ router.get('/', userControllers.fetchAllUsers);
 router.get('/:uid', userControllers.fetchAUser);
 
 // Signup ( Create ) a user 
-router.post('/register', [
+router.post('/signup', [
     check('name')
         .not()
         .isEmpty(),
@@ -28,6 +28,16 @@ router.post('/register', [
         .not()
         .isEmpty()
 ] , userControllers.signUp );
+
+// Login a user 
+router.post('/signin', [
+    check('email')
+        .not()
+        .isEmpty(),
+    check('password')
+        .not()
+        .isEmpty(),
+] , userControllers.signIn );
 
 // Update a user
 router.patch('/:uid', userControllers.updateUser);
