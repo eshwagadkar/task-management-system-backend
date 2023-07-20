@@ -32,7 +32,7 @@ const fetchATask = async (req, res, next) => {
             return next(error);
         }
      } catch (err) {  // If the taskId not a mongo format id or shortened.
-        const error = new HttpError('Something went wrong, couldnot find a place', 500, false);
+        const error = new HttpError('Something went wrong, couldnot find a task', 500, false);
         return next(error);
      }
 }
@@ -118,7 +118,7 @@ const updateTask = async (req, res, next) => {
             return next(error);
         }
      } catch (err) {  // If the taskId not a mongo format id or shortened.
-        const error = new HttpError('Something went wrong, couldnot update a place', 500, false);
+        const error = new HttpError('Something went wrong, couldnot update a task', 500, false);
         return next(error);
      }
 }
@@ -133,7 +133,7 @@ const deleteTask = async (req, res, next) => {
     try{
         task = await Task.findById(taskId).populate('creator');
      } catch (err) {  
-        const error = new HttpError('Something went wrong, couldnot delete a place.', 500, false);
+        const error = new HttpError('Something went wrong, couldnot delete a task.', 500, false);
         return next(error);
      }
      
@@ -151,7 +151,7 @@ const deleteTask = async (req, res, next) => {
         await task.creator.save({ session : sess });
         await sess.commitTransaction();
     } catch (err) {
-        const error = new HttpError('Something went wrong, couldnot delete a place', 500, false);
+        const error = new HttpError('Something went wrong, couldnot delete a task', 500, false);
         return next(error);
     }
 
